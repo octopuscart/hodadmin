@@ -70,7 +70,7 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
     $scope.deleteDataTable = function (postid) {
         $scope.deleteData(postid, gbltablename, gbdeleteurl + "/" + postid + "/" + gbltablename);
     }
-    
+
     $scope.deleteDataTable2 = function (postid, tablename) {
         $scope.deleteData(postid, gbltablename, gbdeleteurl + "/" + postid + "/" + tablename);
     }
@@ -116,6 +116,75 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
 
 
 
+Admin.controller('songDataController', function ($scope, $http, $timeout, $interval) {
+    $scope.resultData = {"url": gblurl, "status": "0", "list": [], "songsList": []};
+    console.log(gblurl)
+    $scope.selecteIndex = function () {
+
+        $http.get(gblurl).then(function (rdata) {
+            $scope.resultData.songsList = rdata.data;
+        }, function () {
+
+        })
+    }
+    $scope.selecteIndex();
+
+
+    
+    $scope.deleteData = function (postid, tablename, deleteurl) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $scope.doDelete(postid, tablename, deleteurl);
+            }
+        })
+    }
+
+  
+
+    $scope.doDelete = function (post_id, tablename, deleteurl) {
+        Swal.fire({
+            title: 'Prcessing...',
+            onBeforeOpen: () => {
+                Swal.showLoading()
+            }
+        })
+        $http.get(deleteurl).then(function () {
+            Swal.fire({
+                title: 'Deleted',
+                type: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                animation: true,
+                onClose: () => {
+                    $scope.getData();
+                }
+            })
+        }, function () {
+
+            Swal.fire({
+                title: 'Erro 500',
+                type: 'error',
+                timer: 1500,
+                showConfirmButton: false,
+            })
+        })
+    }
+
+    $scope.selected = {};
+
+    $scope.detailSong = function (song) {
+        $("#modal-dialog").modal("show")
+        $scope.selected = song
+    }
+})
 
 
 
@@ -123,7 +192,7 @@ Admin.controller('requestDataController', function ($scope, $http, $timeout, $in
 
 Admin.controller('galleryController', function ($scope, $http, $timeout, $interval) {
 
-    
+
 
 
     $scope.resultData = {"tablename": gbltablename, "url": gblurl, "status": "0", "list": []};
@@ -134,7 +203,7 @@ Admin.controller('galleryController', function ($scope, $http, $timeout, $interv
             $scope.resultData.status = '0';
             $scope.resultData.list = resultdata.data;
             $timeout(function () {
-              new CBPGridGallery(document.getElementById('gallery'));
+                new CBPGridGallery(document.getElementById('gallery'));
             }, 1000)
 
         }, function () {
@@ -203,8 +272,8 @@ Admin.controller('galleryController', function ($scope, $http, $timeout, $interv
         console.log(gbdeleteurl);
         $scope.deleteData(postid, gbltablename, gbdeleteurl + "/" + postid + "/" + gbltablename);
     }
-    
-     $scope.deleteDataTable2 = function (postid, tablename) {
+
+    $scope.deleteDataTable2 = function (postid, tablename) {
         $scope.deleteData(postid, gbltablename, gbdeleteurl + "/" + postid + "/" + tablename);
     }
 
