@@ -188,6 +188,79 @@ Admin.controller('songDataController', function ($scope, $http, $timeout, $inter
 
 
 
+Admin.controller('bibleDataController', function ($scope, $http, $timeout, $interval) {
+    $scope.resultData = {"url": gblurl, "status": "0", "list": [], "songsList": []};
+    console.log(gblurl)
+    $scope.selecteIndex = function () {
+
+        $http.get(gblurl).then(function (rdata) {
+            $scope.resultData.songsList = rdata.data;
+        }, function () {
+
+        })
+    }
+    $scope.selecteIndex();
+
+
+    
+    $scope.deleteData = function (postid, tablename, deleteurl) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $scope.doDelete(postid, tablename, deleteurl);
+            }
+        })
+    }
+
+  
+
+    $scope.doDelete = function (post_id, tablename, deleteurl) {
+        Swal.fire({
+            title: 'Prcessing...',
+            onBeforeOpen: () => {
+                Swal.showLoading()
+            }
+        })
+        $http.get(deleteurl).then(function () {
+            Swal.fire({
+                title: 'Deleted',
+                type: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                animation: true,
+                onClose: () => {
+                    $scope.getData();
+                }
+            })
+        }, function () {
+
+            Swal.fire({
+                title: 'Erro 500',
+                type: 'error',
+                timer: 1500,
+                showConfirmButton: false,
+            })
+        })
+    }
+
+    $scope.selected = {};
+
+    $scope.detailSong = function (song) {
+        $("#modal-dialog").modal("show")
+        $scope.selected = song
+    }
+})
+
+
+
+
 
 
 Admin.controller('galleryController', function ($scope, $http, $timeout, $interval) {
