@@ -126,7 +126,7 @@ class MobileApi extends REST_Controller {
 
     function songList_get($index_id) {
         $this->config->load('rest', TRUE);
-        $this->db->order_by('display_index desc');
+        $this->db->order_by('display_index');
         $this->db->where('song_index_id', $index_id);
         $query = $this->db->get("song_lyrics");
         $songIndexData = $query->result();

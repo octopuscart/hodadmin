@@ -23,64 +23,7 @@ if ($userdata) {
         <!-- begin header navigation right -->
         <ul class="nav navbar-nav navbar-right">
           
-            <button class="" id="soundButton" ng-click="playSound()" style="opacity: 0">Click</button>
-            <li class="dropdown">
-                <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
-                    <i class="fa fa-envelope"></i>
-                    <span class="label">{{rootData.messageDataNotifyCount}}</span>
-                </a>
-                <ul class="dropdown-menu media-list pull-right animated fadeInDown">
-                    <li class="dropdown-header">Unseen Messages ({{rootData.messageDataNotifyCount}})</li>
-
-
-
-                    <li class="media" ng-repeat="emails in rootData.messageDataNotifyShort">
-                        <a href="javascript:;">
-                            <div class="media-left"><i class="fa fa-calendar media-object bg-red"></i></div>
-                            <div class="media-body">
-                                <h6 class="media-heading textoverflow">{{emails.title}}</h6>
-                                <div class="text-muted f-s-11 textoverflow">{{emails.description}}</div>
-                                <div class="text-muted f-s-11">{{emails.datetime}}</div>
-                            </div>
-                        </a>
-                    </li>
-
-
-
-                    <li class="dropdown-footer text-center">
-                        <a href="<?php echo site_url("Messages/messageInbox");?>">View more</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
-                    <i class="fa fa-bell-o"></i>
-                    <span class="label">{{rootData.classDataNotifyCount}}</span>
-                </a>
-                <ul class="dropdown-menu media-list pull-right animated fadeInDown">
-                    <li class="dropdown-header">Notifications ({{rootData.classDataNotifyCount}})</li>
-
-
-
-                    <li class="media" ng-repeat="notify in rootData.classDataNotifyShort">
-                        <a href="javascript:;">
-                            <div class="media-left"><i class="fa fa-calendar media-object bg-red"></i></div>
-                            <div class="media-body">
-                                <h6 class="media-heading textoverflow">{{notify.datatype}}</h6>
-                                <div class="text-muted f-s-11 textoverflow">{{notify.title}}</div>
-                                <div class="text-muted f-s-11">{{notify.data.datetime}}</div>
-                            </div>
-                        </a>
-                    </li>
-
-
-
-                    <li class="dropdown-footer text-center">
-                        <a href="<?php echo site_url("requestData/classAllData");?>">View more</a>
-                    </li>
-                </ul>
-            </li>
+           
             <li class="dropdown navbar-user">
                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                     <img src='<?php echo base_url(); ?>assets/profile_image/<?php echo $userdata['image'] ?>' alt="" class="media-object rounded-corner" style="    width: 30px;background: url(<?php echo base_url(); ?>assets/emoji/user.png);    height: 30px;background-size: cover;" /> 

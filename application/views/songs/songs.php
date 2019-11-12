@@ -49,11 +49,11 @@ function truncate($str, $len) {
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li><a href="javascript:;">Home</a></li>
-        <li class="active">News & Events</li>
+        <li class="active">Song Book</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">News & Events <small></small></h1>
+    <h1 class="page-header">Song Book <small></small></h1>
     <!-- end page-header -->
 
     <div id="gallery" class="gallery row">
@@ -91,88 +91,59 @@ function truncate($str, $len) {
         </div>
 
         <div class="col-md-8">
-            <div class="col-md-12 panel  panel-inverse">
-                <div class="list-group">
-
-                    <li href="#" class="list-group-item " ng-click="detailSong(song)" ng-repeat="song in resultData.songsList" style="cursor: pointer">
-                        {{song.title}}
-                    </li>
-
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 panel  panel-inverse">
-            <div class="panel-body">
-                <form action="#" method="POST" enctype="multipart/form-data">
-                    <fieldset>
-                        <legend>Add New Or Event</legend>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Title</label>
-                            <input type="text" class="form-control" name="title"  placeholder="Enter Title Here">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Description</label>
-                            <textarea class="form-control" name="description"  placeholder="Type Description Here" rows="10"></textarea>
-                        </div>
-
-                        <div class="" style="margin-bottom: 20px;">
-
-                            <div class="btn-group" role="group" aria-label="..." style="float:left;margin-right: 10px;">
-                                <span class="btn btn-success col fileinput-button" ">
-                                    <i class="fa fa-plus"></i>
-                                    <span>Add files...</span>
-                                    <input type="file" name="file"  file-model="filemodel" accept="image/*,.pdf">
-                                </span>
-                            </div>
-
-
-                            <span style="font-size: 10px;">  Attach File From Here (PDF, JPG, PNG Allowed)</span>
-
-                            <h2 style="    font-size: 12px;">{{filemodel.name}}</h2>
-                            <input type="hidden" name="file_real_name" value="{{filemodel.name}}"/>
-
-                        </div>
-
-
-                        <button type="submit" name="submit_data" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-save"></i> Add Now</button>
-                        <button type="button"  class="btn btn-sm btn-default" ><i class="fa fa-times"></i> Cancel</button>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="panel panel-inverse">
-
-                <div class="panel-body">
-
-                    <ul class="media-list media-list-with-divider">
-
-                        <li class="media media-sm" ng-repeat="data in resultData.list">
-                            <a class="media-left" href="javascript:;">
-                                <img src="<?php echo base_url(); ?>assets/svgicon/newspaper.svg" alt="" class="media-object rounded-corner">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading"> {{data.title}}</h4>
-                                <p>{{data.description}}</p>
-                                <p><a href="<?php echo base_url(); ?>assets/schoolfiles/{{data.attachment}}" target="_blank" class="btn btn-sm btn-success m-r-5" ng-if='data.attachment'  ng-click="downloadFile(data)">
-                                        <i class="icon fa fa-paperclip" style="color: {{resultData.textcolor}};"></i> Attachment
-                                    </a>
-                                    <button class="btn btn-sm btn-inverse m-r-5" ng-click="detailPost(data)" ><i class="fa fa-edit"></i> Edit</button>
-                                    <button class="btn btn-sm btn-danger" ng-click="deleteDataSingle(data.id)"><i class="fa fa-trash"></i> Delete</button>
-                                    <span class="pull-right"> <i class="fa fa-clock-o"></i>  {{data.datetime}}</span>
-                                </p>
-                            </div>
+            <div class="col-md-12">
+                <div class="panel  panel-inverse">
+                    <div class="list-group">
+                        <li class="list-group-item active">
+                            Songs List
+                            <button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#addModal">Add New</button>
+                        </li>
+                        <li href="#" class="list-group-item " ng-click="detailSong(song)" ng-repeat="song in resultData.songsList" style="cursor: pointer">
+                            {{song.title}} 
+                            <span class="songindex">{{song.display_index}}</span>
                         </li>
 
-                    </ul>
 
+                    </div>
                 </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="modal fade" id="addModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Add New Song</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="POST" enctype="multipart/form-data">
+                        <fieldset>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Title</label>
+                                <input type="text" class="form-control" name="title"  placeholder="Enter Title Here" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Lyrics</label>
+                                <textarea class="form-control" name="lyrics"  placeholder="Type Description Here" rows="20" value=""></textarea>
+                            </div>
+
+                            <button type="submit" name="update_data" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-save"></i> Add Now</button>
+                            <button type="button" data-dismiss="modal"  class="btn btn-sm btn-default" ><i class="fa fa-times"></i> Cancel</button>
+                        </fieldset>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="modal-dialog">
         <div class="modal-dialog">
@@ -191,13 +162,13 @@ function truncate($str, $len) {
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Lyrics</label>
-                                <textarea class="form-control" name="description"  placeholder="Type Description Here" rows="20" value="{{selected.lyrics}}"></textarea>
+                                <textarea class="form-control" name="lyrics"  placeholder="Type Description Here" rows="20" value="{{selected.lyrics}}"></textarea>
                             </div>
 
-                          
+
                             <br/>
                             <input type="hidden" name="table_id" value="{{selected.id}}">
-                            <button type="submit" name="update_data" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-save"></i> Add Now</button>
+                            <button type="submit" name="update_data" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-save"></i> Save Now</button>
                             <button type="button" data-dismiss="modal"  class="btn btn-sm btn-default" ><i class="fa fa-times"></i> Cancel</button>
                         </fieldset>
                     </form>

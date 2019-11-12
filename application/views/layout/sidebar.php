@@ -86,10 +86,10 @@ $blog_menu = array(
 
 
 $lookbook_menu = array(
-    "title" => "Gallery Management",
-    "icon" => "fa fa-image",
+    "title" => "Song Book",
+    "icon" => "fa fa-music",
     "active" => "",
-    "link"=> site_url("CMS/gallaryCategories"),
+    "link"=> site_url("Songs/songs/1/0"),
     "sub_menu" => array(),
 );
 array_push($menu_control, $lookbook_menu);
