@@ -50,6 +50,52 @@ class Songs extends CI_Controller {
         $data['index_id'] = $songindex_id;
         $data['category_id'] = $song_category_id;
 
+        if (isset($_POST['addnew'])) {
+            $insertArray = array(
+                "title" => $this->input->post("title"),
+                "lyrics" => $this->input->post("lyrics"),
+                'song_index_id' => $songindex_id
+            );
+
+            $this->db->insert("song_lyrics", $insertArray);
+            redirect("Songs/songs/" . $song_category_id . "/" . $songindex_id);
+        }
+        
+        if (isset($_POST['delete_data'])) {
+            $sid = $this->input->post("table_id");
+            $this->db->where('id', $sid);
+            $this->db->delete("song_lyrics");
+            redirect("Songs/songs/" . $song_category_id . "/" . $songindex_id);
+        }
+
+
+        if (isset($_POST['update_data'])) {
+            $insertArray = array(
+                "title" => $this->input->post("title"),
+                "lyrics" => $this->input->post("lyrics"),
+            );
+            $sid = $this->input->post("table_id");
+            $this->db->where('id', $sid);
+            $this->db->update("song_lyrics", $insertArray);
+            redirect("Songs/songs/" . $song_category_id . "/" . $songindex_id);
+        }
+
+
+
+        if (isset($_POST['confirmindex'])) {
+            $songid = $this->input->post("song_id");
+            $songindex = $this->input->post("song_index");
+            foreach ($songid as $key => $value) {
+                $sid = $songid[$key];
+                $displayind = $songindex[$key];
+                $this->db->set("display_index", $displayind);
+                $this->db->where('id', $sid);
+                $this->db->update("song_lyrics");
+            }
+            redirect("Songs/songs/" . $song_category_id . "/" . $songindex_id);
+        }
+
+
         $this->load->view('songs/songs', $data);
     }
 
@@ -94,8 +140,8 @@ class Songs extends CI_Controller {
         $data['bookverse'] = $bookverse;
         $data['book_id'] = $book_id;
         $data['chapter_id'] = $chapter_id;
-        
-        
+
+
         if (isset($_POST['update_data'])) {
             $tableid = $this->input->post("table_id");
             $this->db->where('id', $tableid);

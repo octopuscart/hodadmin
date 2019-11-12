@@ -93,18 +93,29 @@ function truncate($str, $len) {
         <div class="col-md-8">
             <div class="col-md-12">
                 <div class="panel  panel-inverse">
-                    <div class="list-group">
-                        <li class="list-group-item active">
-                            Songs List
-                            <button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#addModal">Add New</button>
-                        </li>
-                        <li href="#" class="list-group-item " ng-click="detailSong(song)" ng-repeat="song in resultData.songsList" style="cursor: pointer">
-                            {{song.title}} 
-                            <span class="songindex">{{song.display_index}}</span>
-                        </li>
+                    <form action="#" method="post">
+                        <div class="list-group " >
+                            <li class="list-group-item active" style="height: 50px;    font-size: 20px;">
+                                Songs List
+                                <button type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#addModal">Add New</button>
+                            </li>
+                        </div>
+                        <div class="list-group " id="sortable">
+
+                            <li href="#" class="list-group-item  songitems" ng-click="detailSong(song)" ng-repeat="song in resultData.songsList" style="cursor: pointer">
+                                {{song.title}} 
+                                <input type="hidden" name="song_id[]" value="{{song.id}}">
+                                <span class="songindex" style="float: right;"><input class="songindextext" name="song_index[]" value="{{song.display_index}}"></span>
+                            </li>
 
 
-                    </div>
+                        </div>
+                        <div class="row" style="margin: 0px;padding-bottom: 10px; ">
+                            <div class="col-md-12">
+                                <button name="confirmindex" class="btn btn-success " value="confirm" >Confirm Index</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -131,10 +142,10 @@ function truncate($str, $len) {
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Lyrics</label>
-                                <textarea class="form-control" name="lyrics"  placeholder="Type Description Here" rows="20" value=""></textarea>
+                                <textarea class="form-control" name="lyrics"  placeholder="Type Lyrics Here" rows="20" value=""></textarea>
                             </div>
 
-                            <button type="submit" name="update_data" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-save"></i> Add Now</button>
+                            <button type="submit" name="addnew" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-save"></i> Add Now</button>
                             <button type="button" data-dismiss="modal"  class="btn btn-sm btn-default" ><i class="fa fa-times"></i> Cancel</button>
                         </fieldset>
                     </form>
@@ -169,6 +180,8 @@ function truncate($str, $len) {
                             <br/>
                             <input type="hidden" name="table_id" value="{{selected.id}}">
                             <button type="submit" name="update_data" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-save"></i> Save Now</button>
+
+                            <button type="submit" name="delete_data" class="btn btn-sm btn-danger m-r-5"><i class="fa fa-trash"></i> Delete Now</button>
                             <button type="button" data-dismiss="modal"  class="btn btn-sm btn-default" ><i class="fa fa-times"></i> Cancel</button>
                         </fieldset>
                     </form>

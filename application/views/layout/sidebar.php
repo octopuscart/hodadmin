@@ -7,92 +7,25 @@ if ($userdata) {
 }
 $menu_control = array();
 
-$classdata_menu = array(
-    "title" => "Class Approve Data",
-    "icon" => "fa fa-list",
-    "active" => "",
-    "sub_menu" => array(
-//        "Add Product" => site_url("ProductManager/add_product"),
-        "Assignments" => site_url("requestData/classAssignmentData"),
-        "Class Notice" => site_url("PrequestData/classNoticeData"),
-        "Class Notes" => site_url("requestData/classNoteData"),
-        "Combine Data" => site_url("requestData/classAllData"),
-    ),
-);
-array_push($menu_control, $classdata_menu);
-
-$user_menu = array(
-    "title" => "User Management",
-    "icon" => "fa fa-user",
-    "active" => "",
-    "sub_menu" => array(
-        "Teachers Management" => site_url("Configuration/schoolTeacherManagement"),
-        "Parents Management" => site_url("Configuration/schoolParentManagement"),
-        "Student Management" => site_url("Configuration/schoolStudentManagement"),
-    ),
-);
-array_push($menu_control, $user_menu);
-
-$user_menu = array(
-    "title" => "Class Management",
-    "icon" => "fa fa-sort-alpha-asc",
-    "active" => "",
-    "sub_menu" => array(
-        " Add Class / Sections" => site_url("Configuration/classManagement"),
-    ),
-);
-array_push($menu_control, $user_menu);
 
 
-$news_menu = array(
-    "title" => "New & Events",
-    "icon" => "fa fa-newspaper-o",
+$bible_menu = array(
+    "title" => "Talugu Bible",
+    "icon" => "fa fa-book",
     "active" => "",
-    "link" => site_url("SchoolManager/newsList"),
+    "link"=> site_url("Songs/bible/11/0"),
     "sub_menu" => array(),
 );
-array_push($menu_control, $news_menu);
+array_push($menu_control, $bible_menu);
 
-
-$user_menu = array(
-    "title" => "Circular Management",
-    "icon" => "fa fa-file-text ",
-    "active" => "",
-    "sub_menu" => array(
-        "Teachers Circular" => site_url("SchoolManager/addCircular/teacher"),
-        "Parents Circular" => site_url("SchoolManager/addCircular/parent"),
-        "Student Circular" => site_url("SchoolManager/addCircular/student"),
-    ),
-);
-array_push($menu_control, $user_menu);
-
-
-
-
-
-$blog_menu = array(
-    "title" => "Blog Management",
-    "icon" => "fa fa-edit",
-    "active" => "",
-    "sub_menu" => array(
-        "Categories" => site_url("CMS/blogCategories"),
-        "Add New" => site_url("CMS/newBlog"),
-        "Blog List" => site_url("CMS/blogList"),
-        "Tags" => site_url("CMS/blogTag"),
-    ),
-);
-#array_push($menu_control, $blog_menu);
-
-
-
-$lookbook_menu = array(
+$song_menu = array(
     "title" => "Song Book",
     "icon" => "fa fa-music",
     "active" => "",
     "link"=> site_url("Songs/songs/1/0"),
     "sub_menu" => array(),
 );
-array_push($menu_control, $lookbook_menu);
+array_push($menu_control, $song_menu);
 //
 //$cms_menu = array(
 //    "title" => "Content Management",

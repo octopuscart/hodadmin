@@ -123,6 +123,17 @@ Admin.controller('songDataController', function ($scope, $http, $timeout, $inter
 
         $http.get(gblurl).then(function (rdata) {
             $scope.resultData.songsList = rdata.data;
+             $timeout(function(){
+                 $( "#sortable" ).sortable({
+                     "axis": "y" ,
+                     stop: function( event, ui ) {
+                        $("#sortable .songitems").each(function(e, i){
+                            $(this).find("input.songindextext").val(e);
+                       
+                        })
+                     }
+                 });
+            },1000)
         }, function () {
 
         })

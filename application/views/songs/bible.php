@@ -49,11 +49,11 @@ function truncate($str, $len) {
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li><a href="javascript:;">Home</a></li>
-        <li class="active">News & Events</li>
+        <li class="active">Talugu Bible</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">News & Events <small></small></h1>
+    <h1 class="page-header">Talugu Bible <small></small></h1>
     <!-- end page-header -->
 
     <div id="gallery" class="gallery row">
