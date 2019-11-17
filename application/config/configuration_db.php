@@ -1,6 +1,6 @@
 <?php
-$activedb = "tailor_soj";
-$activeusername = "j2k5e6r5_octopus";
-$activepassword = "India$2017";
+$activedb = "sojapp_soj_pp";
+$activeusername = "sojapp_soj_pp";
+$activepassword = "jT2sGmEu";
 ?>
 
