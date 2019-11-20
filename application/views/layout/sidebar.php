@@ -27,16 +27,14 @@ $song_menu = array(
 );
 array_push($menu_control, $song_menu);
 //
-//$cms_menu = array(
-//    "title" => "Content Management",
-//    "icon" => "fa fa-file-text",
-//    "active" => "",
-//    "sub_menu" => array(
-//        "Look Book" => site_url("CMS/lookbook"),
-//        "Blog" => site_url("CMS/blog"),
-//    ),
-//);
-//array_push($menu_control, $cms_menu);
+$apppage_menu = array(
+    "title" => "App Pages",
+    "icon" => "fa fa-file-text",
+    "active" => "",
+    "link"=> site_url("CMS/applicationPages"),
+    "sub_menu" => array(),
+);
+array_push($menu_control, $apppage_menu);
 
 
 $msg_menu2 = array(

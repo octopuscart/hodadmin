@@ -123,6 +123,14 @@ class MobileApi extends REST_Controller {
         $songIndexData = $query->result();
         $this->response($songIndexData);
     }
+    
+    function songTemplate_get() {
+        $this->config->load('rest', TRUE);
+        $this->db->order_by('id');
+        $query = $this->db->get("song_request_template");
+        $songTemplateData = $query->row();
+        $this->response($songTemplateData);
+    }
 
     function songList_get($index_id) {
         $this->config->load('rest', TRUE);
@@ -165,6 +173,14 @@ class MobileApi extends REST_Controller {
         $query = $this->db->get("bible_verses");
         $bibleChepterData = $query->result();
         $this->response($bibleChepterData);
+    }
+    
+    function appPages_get($pageid) {
+        $this->config->load('rest', TRUE);
+        $this->db->where('id', $pageid);
+        $query = $this->db->get('app_pages');
+        $pageobj = $query->row();
+        $this->response($pageobj);
     }
 
 }

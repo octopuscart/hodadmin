@@ -17,53 +17,32 @@ class CMS extends CI_Controller {
         $this->user_type = $this->session->logged_in['user_type'];
     }
 
-    public function gallaryCategories() {
+    public function applicationPages($pageid = 1) {
         $data = array();
-        $tablename = "school_album";
-        $get_data = $this->Curd_model->get($tablename, 'desc');
-        $data['news_data'] = $get_data;
-        $data['tablename'] = $tablename;
-        $data["geturl"] = site_url("LocalApi/tableData");
-        $data["deleteurl"] = site_url("LocalApi/classDataDelete");
-        if (isset($_POST['submit_data'])) {
-            $insertArray = array(
-                "title" => $this->input->post("title"),
-                "description" => $this->input->post("description"),
-                "datetime" => date("Y-m-d H:i:s a"),
-            );
-            $tableid = $this->Curd_model->insert($tablename, $insertArray);
-            redirect("CMS/gallaryCategories");
-        }
+
+        $query = $this->db->get('app_pages');
+        $app_pageslist = $query->result();
+        $data['pagelist'] = $app_pageslist;
+
+        $this->db->where('id', $pageid);
+        $query = $this->db->get('app_pages');
+        $pageobj = $query->row();
+
+        $data['pageobj'] = $pageobj;
+
+
         if (isset($_POST['update_data'])) {
-            $tableid = $this->input->post("table_id");
-            $this->db->where('id', $tableid);
+
+            $this->db->where('id', $pageid);
             $insertArray = array(
-                "title" => $this->input->post("title"),
-                "description" => $this->input->post("description"),
-                "datetime" => date("Y-m-d H:i:s a"),
+                "sub_title" => $this->input->post("sub_title"),
+                "body" => $this->input->post("body"),
             );
-            $this->db->update($tablename, $insertArray);
-            redirect("CMS/gallaryCategories");
-        }
-        $this->load->view('CMS/gallary/list', $data);
-    }
+            $this->db->update("app_pages", $insertArray);
 
-    function galleryImages($galleryid) {
-        $tablename = "school_album";
-        $get_data = $this->Curd_model->get_single($tablename, $galleryid);
-        $data['gallery_data'] = $get_data;
-        $data['tablename'] = $tablename;
-
-        $data["geturl"] = site_url("MobileApi/getGalleryAlbumById/$galleryid");
-        $data["deleteurl"] = site_url("LocalApi/classDataDelete");
-
-
-        if (isset($_POST['submit_data'])) {
-
-            $tableid = $galleryid;
             $realfilename = $this->input->post("file_real_name");
             if ($realfilename) {
-                $config['upload_path'] = 'assets/schoolfiles';
+                $config['upload_path'] = 'assets/images';
                 $config['allowed_types'] = '*';
                 $tempfilename = rand(10000, 1000000);
                 $tempfilename = "" . $tempfilename . $tableid;
@@ -79,85 +58,20 @@ class CMS extends CI_Controller {
                 $this->upload->initialize($config);
                 if ($this->upload->do_upload('file')) {
                     $uploadData = $this->upload->data();
-                    $tableid = $tableid;
                     $file_newname = $uploadData['file_name'];
-
-                    $filecreate = array(
-                        'table_name' => $tablename,
-                        'table_id' => $tableid,
-                        "file_name" => $file_newname,
-                        'file_real_name' => $this->input->post("file_real_name"),
-                        'file_type' => $ext3,
-                        "date" => date("Y-m-d"),
-                        "time" => date("H:i:s a"),
-                    );
-                    $this->db->insert('school_files', $filecreate);
+                    $this->db->set('image', $file_newname);
+                    $this->db->where('id', $pageid); //set column_name and value in which row need to update
+                    $this->db->update("app_pages"); //
                 }
             }
-            redirect("CMS/galleryImages/$galleryid");
+
+
+            redirect("CMS/applicationPages/" . $pageid);
         }
 
 
-        $this->load->view('CMS/gallary/imagelist', $data);
-    }
-
-    public function seoPageSetting() {
-        $data = array();
-        $data['title'] = "Set The Page wise SEO Attributes";
-        $data['description'] = "SEO";
-        $data['form_title'] = "SEO";
-        $data['table_name'] = 'seo_settings';
-        $form_attr = array(
-            "seo_title" => array("title" => "Title", "required" => true, "place_holder" => "Title", "type" => "text", "default" => ""),
-            "seo_description" => array("title" => "Description", "required" => true, "place_holder" => "Description", "type" => "textarea", "default" => ""),
-            "seo_keywords" => array("title" => "Keywords", "required" => true, "place_holder" => "Keywords", "type" => "textarea", "default" => ""),
-            "seo_url" => array("title" => "Page URL", "required" => false, "place_holder" => "Link", "type" => "text", "default" => ""),
-        );
-
-        if (isset($_POST['submitData'])) {
-            $postarray = array();
-            foreach ($form_attr as $key => $value) {
-                $postarray[$key] = $this->input->post($key);
-            }
-            $this->Curd_model->insert('seo_settings', $postarray);
-            redirect("CMS/seoPageSetting");
-        }
-
-
-        $categories_data = $this->Curd_model->get('seo_settings');
-        $data['list_data'] = $categories_data;
-
-        $fields = array(
-            "id" => array("title" => "ID#", "width" => "100px"),
-            "seo_title" => array("title" => "Title", "width" => "200px"),
-            "seo_description" => array("title" => "Description", "width" => "200px"),
-            "seo_keywords" => array("title" => "Keywords", "width" => "200px"),
-            "seo_url" => array("title" => "URL", "width" => "200px"),
-        );
-
-        $data['fields'] = $fields;
-        $data['form_attr'] = $form_attr;
-        $this->load->view('layout/curd', $data);
-    }
-
-    public function siteSEOConfigUpdate() {
-        $data = array();
-        $blog_data = $this->Curd_model->get_single('configuration_site', 2);
-
-        $data['site_data'] = $blog_data;
-        if (isset($_POST['update_data'])) {
-            $blogArray = array(
-                "seo_keywords" => $this->input->post("keyword"),
-                "seo_title" => $this->input->post("title"),
-                "seo_desc" => $this->input->post("description"),
-            );
-
-            $this->db->where('id', 1);
-            $this->db->update('configuration_site', $blogArray);
-            redirect("CMS/siteConfigUpdate");
-        }
-
-        $this->load->view('configuration/site_update', $data);
+        $data['page_id'] = $pageid;
+        $this->load->view('CMS/applicationPage', $data);
     }
 
 }

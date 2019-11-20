@@ -54,6 +54,7 @@ class Songs extends CI_Controller {
             $insertArray = array(
                 "title" => $this->input->post("title"),
                 "lyrics" => $this->input->post("lyrics"),
+                "youtube_link"=>$this->input->post("youtube_link"),
                 'song_index_id' => $songindex_id
             );
 
@@ -73,6 +74,7 @@ class Songs extends CI_Controller {
             $insertArray = array(
                 "title" => $this->input->post("title"),
                 "lyrics" => $this->input->post("lyrics"),
+                "youtube_link"=>$this->input->post("youtube_link"),
             );
             $sid = $this->input->post("table_id");
             $this->db->where('id', $sid);

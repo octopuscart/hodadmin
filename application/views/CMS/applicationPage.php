@@ -56,25 +56,25 @@ function truncate($str, $len) {
 </style>
 
 <!-- begin #content -->
-<div id="content" class="content"  ng-controller="songDataController">
+<div id="content" class="content"  >
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li><a href="javascript:;">Home</a></li>
-        <li class="active">Song Book</li>
+        <li class="active">App Pages</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Song Book <small></small></h1>
+    <h1 class="page-header">App Pages <small></small></h1>
     <!-- end page-header -->
 
     <div id="gallery" class="gallery row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="panel  panel-inverse">
                 <div class="list-group">
                     <?php
-                    foreach ($songlatters as $lkey => $lvalue) {
+                    foreach ($pagelist as $lkey => $lvalue) {
                         ?>
-                        <a href="<?php echo site_url("Songs/songs/" . $lvalue->id . "/0") ?>" class="list-group-item <?php echo $lvalue->id == $category_id ? 'active' : ''; ?>">
+                        <a href="<?php echo site_url("CMS/applicationPages/" . $lvalue->id) ?>" class="list-group-item <?php echo $lvalue->id == $page_id ? 'active' : ''; ?>">
                             <?php echo $lvalue->title; ?>
                         </a>
                         <?php
@@ -84,64 +84,54 @@ function truncate($str, $len) {
                 </div>
             </div>
         </div>
-        <div class="col-md-1 ">
-            <div class="panel  panel-inverse">
-                <div class="list-group">
-                    <?php
-                    foreach ($songindex as $ikey => $ivalue) {
-                        ?>
-                        <a href="<?php echo site_url("Songs/songs/" . $category_id . "/" . $ivalue->id) ?>" class="list-group-item <?php echo $ivalue->id == $index_id ? 'active' : ''; ?>">
-                            <?php echo $ivalue->title; ?>
-                        </a>
-                        <?php
-                    }
-                    ?>
 
-                </div>
-            </div>
-        </div>
 
         <div class="col-md-8">
             <div class="col-md-12">
-                <div class="panel  panel-inverse">
-                    <form action="#" method="post">
+                <div class="panel  panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title"></h2><?php echo $pageobj->title; ?>
+                    </div>
 
+                    <div class="panel-body">
 
+                     
+                        <form action="#" method="POST" enctype="multipart/form-data">
+                            <fieldset>
 
-                        <div class="list-group " >
-                            <li class="list-group-item active" style="height: 50px;    font-size: 20px;">
-                                Songs List
-                                <button type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#addModal">Add New</button>
-                            </li>
-                               <li href="#" class="list-group-item  songitems">
-                                <div class="row">
-                                    <div class="songlyrics col-md-5">Title</div> 
-                                    <span class="youtubelink  col-md-5">Youtube Link</span>
-                                    <span class="songindex  col-md-2" style="float: right;">Song Index</span>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Title</label>
+                                    <input type="text" class="form-control" name="sub_title"  placeholder="Enter Title Here" value="<?php echo $pageobj->sub_title; ?>">
                                 </div>
-                            </li>
-                        </div>
-                        <div class="list-group " id="sortable">
-                         
-
-
-                            <li href="#" class="list-group-item  songitems" ng-click="detailSong(song)" ng-repeat="song in resultData.songsList" style="cursor: pointer">
-                                <div class="row">
-                                    <div class="songlyrics col-md-5">{{song.title}}</div> 
-                                    <span class="youtubelink  col-md-5">{{song.youtube_link}}</span>
-                                    <input type="hidden" name="song_id[]" value="{{song.id}}">
-                                    <span class="songindex  col-md-2" style="float: right;"><input class="songindextext form-control" name="song_index[]"  value="{{song.display_index}}"></span>
+                                
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Body</label>
+                                    <textarea class="form-control" name="body"  placeholder="Type Lyrics Here" rows="10" value=""><?php echo $pageobj->body; ?></textarea>
                                 </div>
-                            </li>
+                                
+                                <div class="" style="margin-bottom: 20px;">
+
+                                <div class="btn-group" role="group" aria-label="..." style="float:left;margin-right: 10px;">
+                                    <span class="btn btn-success col fileinput-button" ">
+                                        <i class="fa fa-plus"></i>
+                                        <span>Add files...</span>
+                                        <input type="file" name="file"  file-model="filemodel" accept="image/*">
+                                    </span>
+                                </div>
 
 
-                        </div>
-                        <div class="row" style="margin: 0px;padding-bottom: 10px; ">
-                            <div class="col-md-12">
-                                <button name="confirmindex" class="btn btn-success " value="confirm" >Confirm Index</button>
-                            </div>
-                        </div>
-                    </form>
+                                <span style="font-size: 10px;">  Attach File From Here (PDF, JPG, PNG Allowed)</span>
+
+                                <h2 style="    font-size: 12px;">{{filemodel.name}}</h2>
+                                <input type="hidden" name="file_real_name" value="{{filemodel.name}}"/>
+
+
+                            
+
+                                <button type="submit" name="update_data" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-save"></i> Update Now</button>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
