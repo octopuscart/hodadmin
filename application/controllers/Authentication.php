@@ -14,7 +14,7 @@ class Authentication extends CI_Controller {
         $data['login_user'] = $this->session->userdata('logged_in');
         $userdata = $this->userdata;
         if ($userdata) {
-            redirect("Order/index", "refresh");
+            redirect("Songs/songs/1/0", "refresh");
         } else {
             //        redirect("Authentication/index");
         }
