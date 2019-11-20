@@ -17,6 +17,28 @@ class CMS extends CI_Controller {
         $this->user_type = $this->session->logged_in['user_type'];
     }
 
+    public function deletePrayer($id) {
+        $this->db->where('id', $id);
+        $this->db->delete('prayer_request');
+        redirect("CMS/prayerRequest");
+    }
+
+    public function prayerRequest() {
+        $data['prayer_request'] = [];
+        $this->load->view('CMS/prayer_request', $data);
+    }
+
+    public function deleteContact($id) {
+        $this->db->where('id', $id);
+        $this->db->delete('contact_us');
+        redirect("CMS/contactList");
+    }
+
+    public function contactList() {
+        $data['prayer_request'] = [];
+        $this->load->view('CMS/contactList', $data);
+    }
+
     public function applicationPages($pageid = 1) {
         $data = array();
 

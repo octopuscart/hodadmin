@@ -36,6 +36,29 @@ $apppage_menu = array(
 );
 array_push($menu_control, $apppage_menu);
 
+$apppage_menu = array(
+    "title" => "Prayer Request",
+    "icon" => "fa fa-envelope",
+    "active" => "",
+    "link"=> site_url("CMS/prayerRequest"),
+    "sub_menu" => array(),
+);
+array_push($menu_control, $apppage_menu);
+
+
+$apppage_menu = array(
+    "title" => "Feedback List",
+    "icon" => "fa fa-phone",
+    "active" => "",
+    "link"=> site_url("CMS/contactList"),
+    "sub_menu" => array(),
+);
+array_push($menu_control, $apppage_menu);
+
+
+
+
+
 
 $msg_menu2 = array(
     "title" => "Message Management",

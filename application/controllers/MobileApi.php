@@ -191,6 +191,42 @@ class MobileApi extends REST_Controller {
         $this->response($messageData);
     }
 
+    function prayerApi_get() {
+        $this->config->load('rest', TRUE);
+        $draw = intval($this->input->get("draw"));
+        $start = intval($this->input->get("start"));
+        $length = intval($this->input->get("length"));
+        $searchqry = "";
+        $query2 = $this->db->get('prayer_request');
+        $app_pageslist_l = $query2->result();
+        $search = $this->input->get("search")['value'];
+        $this->db->where('email!=', "");
+        $this->db->order_by('id', "desc");
+        $this->db->limit($length, $start);
+        $query = $this->db->get('prayer_request');
+        $app_pageslist = $query->result();
+        $prlist = [];
+        foreach ($app_pageslist as $key => $value) {
+            $probj = array(
+                "id" => $value->id,
+                "contact_information" => $value->full_name . "</br>" . $value->email . "</b>" . $value->contact_no,
+                "location" => $value->country . $value->states . $value->city,
+                "prayer_needed" => $value->prayer_needed,
+                "messages" => $value->messages,
+                "opt_date" => $value->opt_date,
+                "operation" => "<a href='" . site_url("CMS/deletePrayer/" . $value->id) . "' class='btn btn-danger btn-sm'><i class='fa fa-trash'></i> Delete</a>"
+            );
+            array_push($prlist, $probj);
+        }
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => count($app_pageslist_l),
+            "recordsFiltered" => count($app_pageslist_l),
+            "data" => $prlist
+        );
+        $this->response($output);
+    }
+
     function prayer_request_post() {
         $this->config->load('rest', TRUE);
         // $tempfilename = rand(100, 1000000);
@@ -209,9 +245,46 @@ class MobileApi extends REST_Controller {
         $last_id = $this->db->insert_id();
         $this->response(array("last_id" => $last_id));
     }
-    
+
+    function contactApi_get() {
+        $this->config->load('rest', TRUE);
+        $draw = intval($this->input->get("draw"));
+        $start = intval($this->input->get("start"));
+        $length = intval($this->input->get("length"));
+        $searchqry = "";
+        $query2 = $this->db->get('contact_us');
+        $app_pageslist_l = $query2->result();
+        $search = $this->input->get("search")['value'];
+        $this->db->where('email!=', "");
+        $this->db->order_by('id', "desc");
+        $this->db->limit($length, $start);
+        $query = $this->db->get('contact_us');
+        $app_pageslist = $query->result();
+        $prlist = [];
+        foreach ($app_pageslist as $key => $value) {
+            $probj = array(
+                "id" => $value->id,
+                "full_name" => $value->full_name,
+                "contact_no" => $value->contact_no,
+                "email" => $value->email,
+                "messages" => $value->messages,
+                "opt_date" => $value->opt_date,
+                "operation" => "<a href='" . site_url("CMS/deleteContact/" . $value->id) . "' class='btn btn-danger btn-sm'><i class='fa fa-trash'></i> Delete</a>"
+            );
+            array_push($prlist, $probj);
+        }
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => count($app_pageslist_l),
+            "recordsFiltered" => count($app_pageslist_l),
+            "data" => $prlist
+        );
+        $this->response($output);
+    }
+
     function contact_us_post() {
         $this->config->load('rest', TRUE);
+
         // $tempfilename = rand(100, 1000000);
         $insertData = array(
             'full_name' => $this->post('full_name'),
