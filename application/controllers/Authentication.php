@@ -64,7 +64,7 @@ class Authentication extends CI_Controller {
                         'icon' => 'happy.png'
                     );
                     $this->session->set_flashdata("checklogin", $message);
-                    redirect('Order/index');
+                    redirect('Songs/songs/1/0');
                 }
             } else {
                 $message = array(
