@@ -123,7 +123,7 @@ class MobileApi extends REST_Controller {
         $songIndexData = $query->result();
         $this->response($songIndexData);
     }
-    
+
     function songTemplate_get() {
         $this->config->load('rest', TRUE);
         $this->db->order_by('id');
@@ -165,7 +165,7 @@ class MobileApi extends REST_Controller {
         $bibleChepterData = $query->result();
         $this->response($bibleChepterData);
     }
-    
+
     function bibleVerses_get($chepter_id) {
         $this->config->load('rest', TRUE);
         $this->db->order_by('verse_no');
@@ -174,13 +174,55 @@ class MobileApi extends REST_Controller {
         $bibleChepterData = $query->result();
         $this->response($bibleChepterData);
     }
-    
+
     function appPages_get($pageid) {
         $this->config->load('rest', TRUE);
         $this->db->where('id', $pageid);
         $query = $this->db->get('app_pages');
         $pageobj = $query->row();
         $this->response($pageobj);
+    }
+
+    function messageApi_get() {
+        $this->config->load('rest', TRUE);
+        $this->db->order_by('id');
+        $query = $this->db->get("gcm_notification");
+        $messageData = $query->result();
+        $this->response($messageData);
+    }
+
+    function prayer_request_post() {
+        $this->config->load('rest', TRUE);
+        // $tempfilename = rand(100, 1000000);
+        $insertData = array(
+            'full_name' => $this->post('full_name'),
+            'contact_no' => $this->post('contact_no'),
+            'email' => $this->post('email'),
+            'country' => $this->post('country'),
+            'states' => $this->post('states'),
+            'city' => $this->post('city'),
+            'prayer_needed' => $this->post('prayer_needed'),
+            'messages' => $this->post('messages'),
+            "opt_date" => date("Y-m-d H:i:s a"),
+        );
+        $this->db->insert('prayer_request', $insertData);
+        $last_id = $this->db->insert_id();
+        $this->response(array("last_id" => $last_id));
+    }
+    
+    function contact_us_post() {
+        $this->config->load('rest', TRUE);
+        // $tempfilename = rand(100, 1000000);
+        $insertData = array(
+            'full_name' => $this->post('full_name'),
+            'contact_no' => $this->post('contact_no'),
+            'email' => $this->post('email'),
+            'messages' => $this->post('messages'),
+            "opt_date" => date("Y-m-d H:i:s a"),
+        );
+        $this->db->insert('contact_us', $insertData);
+        $last_id = $this->db->insert_id();
+        $this->response(array("last_id" => $last_id));
     }
 
 }
