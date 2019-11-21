@@ -95,6 +95,22 @@ class CMS extends CI_Controller {
         $data['page_id'] = $pageid;
         $this->load->view('CMS/applicationPage', $data);
     }
+    
+    public function songTemplate() {
+        $data = array();
+        $query = $this->db->get('song_request_template');
+        $songtemplate = $query->row();
+        $data['songtemplate'] = $songtemplate;
+        if (isset($_POST['update_data'])) {
+            $this->db->where('id', $songtemplate->id);
+            $insertArray = array(
+                "request_template" => $this->input->post("request_template"),
+            );
+            $this->db->update("song_request_template", $insertArray);
+            redirect("CMS/songTemplate");
+        }
+        $this->load->view('CMS/songTemplate', $data);
+    }
 
 }
 

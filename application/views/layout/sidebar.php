@@ -55,6 +55,17 @@ $apppage_menu = array(
 );
 array_push($menu_control, $apppage_menu);
 
+$apppage_menu = array(
+    "title" => "Song Rqst. Template",
+    "icon" => "fa fa-list",
+    "active" => "",
+    "link"=> site_url("CMS/songTemplate"),
+    "sub_menu" => array(),
+);
+array_push($menu_control, $apppage_menu);
+
+
+
 
 
 
