@@ -102,6 +102,36 @@ class MobileApi extends REST_Controller {
             return 'Message successfully delivered' . PHP_EOL;
     }
 
+    function registerMobileGuest_post() {
+        $this->config->load('rest', TRUE);
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $reg_id = $this->post('reg_id');
+        $model = $this->post('model');
+        $manufacturer = $this->post('manufacturer');
+        $uuid = $this->post('uuid');
+        $regArray = array(
+            "reg_id" => $reg_id,
+            "manufacturer" => $manufacturer,
+            "uuid" => $uuid,
+            "model" => $model,
+            "user_id" => "Guest",
+            "op_date" => date("Y-m-d H:i:s a")
+        );
+
+        $this->db->where('uuid', $uuid);
+        $query = $this->db->get('gcm_registration');
+        $regarray = $query->result_array();
+        if ($regArray) {
+            $this->db->set('reg_id', $reg_id);
+            $this->db->where('uuid', $uuid);
+            $this->db->update("gcm_registration"); //
+        } else {
+            $this->db->insert('gcm_registration', $regArray);
+        }
+        $this->response(array("status" => "done"));
+    }
+
     function testGet_get() {
         print_r($this->checklogin['user_type']);
     }
