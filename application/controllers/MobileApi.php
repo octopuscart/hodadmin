@@ -123,6 +123,7 @@ class MobileApi extends REST_Controller {
         $query = $this->db->get('gcm_registration');
         $regarray = $query->result_array();
         if ($regarray) {
+            $this->db->set('op_date', date("Y-m-d H:i:s a"));
             $this->db->set('reg_id', $reg_id);
             $this->db->where('uuid', $uuid);
             $this->db->update("gcm_registration"); //
