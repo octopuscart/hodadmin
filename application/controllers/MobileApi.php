@@ -1,8 +1,6 @@
 <?php
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH . 'libraries/REST_Controller.php');
-
 class MobileApi extends REST_Controller {
 
     public function __construct() {
@@ -146,6 +144,34 @@ class MobileApi extends REST_Controller {
         $this->response($songCategory);
     }
 
+    function songCategoryDetailsAll_get() {
+        $this->config->load('rest', TRUE);
+        $this->db->order_by('id');
+        $query = $this->db->get("song_category");
+        $songCategory = $query->result_array();
+        $resultData = array();
+        foreach ($songCategory as $key => $value) {
+            $resultData[$value['id']] = $value;
+        }
+        $this->response($resultData);
+    }
+
+    function songIndexListAll_get() {
+        $this->config->load('rest', TRUE);
+        $query = $this->db->get("song_category");
+        $songCategory = $query->result_array();
+        $resultData = array();
+        foreach ($songCategory as $ckey => $cvalue) {
+            $catid = $cvalue['id'];
+            $this->db->order_by('id');
+            $this->db->where('category_id', $catid);
+            $query = $this->db->get("song_index");
+            $songIndexData = $query->result();
+            $resultData[$catid] = $songIndexData;
+        }
+        $this->response($resultData);
+    }
+
     function songIndexList_get($category_id) {
         $this->config->load('rest', TRUE);
         $this->db->order_by('id');
@@ -161,6 +187,24 @@ class MobileApi extends REST_Controller {
         $query = $this->db->get("song_request_template");
         $songTemplateData = $query->row();
         $this->response($songTemplateData);
+    }
+
+    function songListAll_get() {
+        $this->config->load('rest', TRUE);
+
+        $this->db->order_by('id');
+        $query = $this->db->get("song_index");
+        $songIndexData = $query->result_array();
+        $resultData = array();
+        foreach ($songIndexData as $skey => $svalue) {
+            $this->db->order_by('display_index');
+            $this->db->where('song_index_id', $svalue['id']);
+            $query = $this->db->get("song_lyrics");
+            $song_lyricsData = $query->result();
+            $resultData[$svalue['id']] = $song_lyricsData;
+        }
+
+        $this->response($resultData);
     }
 
     function songList_get($index_id) {
@@ -197,10 +241,41 @@ class MobileApi extends REST_Controller {
         $this->response($bibleChepterData);
     }
 
+    function bibleCheptersAll_get($book_id) {
+        $this->config->load('rest', TRUE);
+
+        $this->db->order_by('book_no');
+        $query = $this->db->get("bible_book");
+        $biblebookData = $query->result();
+        $bibleArray = array();
+        $bibleArray["bible_" . $book_id] = array();
+        $this->db->where('book_id', $book_id);
+        $query = $this->db->get("bible_chapter");
+        $bibleChepterData = $query->result();
+        foreach ($bibleChepterData as $bckey => $bcvalue) {
+            $chepter_id = $bcvalue->id;
+            $this->db->order_by('verse_no');
+            $this->db->where('chapter_id', $chepter_id);
+            $query = $this->db->get("bible_verses");
+            $bibleChepterData = $query->result();
+            $bibleArray["bible_" . $book_id][$chepter_id] = $bibleChepterData;
+        }
+
+        $this->response($bibleArray);
+    }
+
     function bibleVerses_get($chepter_id) {
         $this->config->load('rest', TRUE);
         $this->db->order_by('verse_no');
         $this->db->where('chapter_id', $chepter_id);
+        $query = $this->db->get("bible_verses");
+        $bibleChepterData = $query->result();
+        $this->response($bibleChepterData);
+    }
+    
+    function bibleVersesAll_get() {
+        $this->config->load('rest', TRUE);
+        $this->db->limit(20);
         $query = $this->db->get("bible_verses");
         $bibleChepterData = $query->result();
         $this->response($bibleChepterData);
