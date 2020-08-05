@@ -16,7 +16,7 @@ $bible_menu = array(
     "link"=> site_url("Songs/bible/11/0"),
     "sub_menu" => array(),
 );
-array_push($menu_control, $bible_menu);
+//array_push($menu_control, $bible_menu);
 
 $song_menu = array(
     "title" => "Song Book",
