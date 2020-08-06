@@ -34,7 +34,7 @@ $apppage_menu = array(
     "link"=> site_url("CMS/applicationPages"),
     "sub_menu" => array(),
 );
-array_push($menu_control, $apppage_menu);
+//array_push($menu_control, $apppage_menu);
 
 $apppage_menu = array(
     "title" => "Prayer Request",
@@ -62,7 +62,7 @@ $apppage_menu = array(
     "link"=> site_url("CMS/songTemplate"),
     "sub_menu" => array(),
 );
-array_push($menu_control, $apppage_menu);
+//array_push($menu_control, $apppage_menu);
 
 
 
